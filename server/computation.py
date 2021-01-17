@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1TDPL0LrmI8FZaxd3l_AyOijImFbJvZVb
 """
 
+from flask import Flask, render_template, send_from_directory
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -20,11 +21,11 @@ def color_weight_pred(filename):
   img = cv2.imread(filename)
   img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
   h, w, c = img.shape
-  hs = round(h/24)
-  ws = round(w/16)
+  hs = 20
+  ws = 50
   resized = cv2.resize(img, (ws,hs), interpolation = cv2.INTER_AREA)
-  new_resized = cv2.resize(resized, (ws*16,hs*24), interpolation = cv2.INTER_AREA)
-  cv2.imshow('new image', new_resized)
+  new_resized = cv2.resize(resized, (ws*13,hs*20), interpolation = cv2.INTER_AREA)
+  # cv2.imshow('new image', new_resized)
   a = []
   for i in range(hs):
     for j in range(ws):
@@ -47,11 +48,12 @@ def color_weight_pred(filename):
     else:
       g_percent = 80
       weights.append(g_percent)
-  print(weights)
+  print(len(weights))
   #x = np.reshape(weights, (hs, ws))
-  y = json.dumps(weights)
+  with open('data.txt', 'w') as outfile:
+    json.dump(weights, outfile)
 
-  cv2.waitKey(0)
-  cv2.destroyAllWindows()
+  # cv2.waitKey(0)
+  # cv2.destroyAllWindows()
 
-  return y
+  return render_template('base.html')

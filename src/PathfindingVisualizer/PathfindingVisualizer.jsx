@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Node from './Node/Node';
 import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
 
+
 import './PathfindingVisualizer.css';
 
 const START_NODE_ROW = 10;
@@ -108,8 +109,6 @@ export default class PathfindingVisualizer extends Component {
       </select>
 
       <p>{message}</p>
-
-      <a href="http://127.0.0.1:5500/Screenshot/main.html" target="_blank">Click here to select your image</a>
 
         <div className="grid">
           {grid.map((row, rowIdx) => {

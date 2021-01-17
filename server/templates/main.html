@@ -7,8 +7,8 @@
             width: 100%;
         }
         #fullsized_image_holder {
-            height: 600px;
-            width: 900px;
+            height: 900px;
+            width: 1600px;
             }
     </style>
 </head>
@@ -28,6 +28,9 @@
         <img alt="" style="display: none" id="element-out"></img>
         <p id="colorInfo"></p>
         <button style="display: none" onclick="takeScreenshot()" id="download-button">Download Screenshot!</button>
+        <form action="/my-link/">
+            <input type="submit" value="Click me" />
+        </form>
     </div>
     <br>
 
@@ -131,7 +134,7 @@
   staticMapUrl += '?center=' + map.center.lat() + ',' + map.center.lng();
 
   //Set the Google Map Size.
-  staticMapUrl += '&size=600x900';
+  staticMapUrl += '&size=1000x400';
 
   //Set the Google Map Zoom.
   staticMapUrl += '&zoom=' + map.zoom;
@@ -158,7 +161,8 @@
 
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="html2canvas.min.js"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='html2canvas.min.js') }}"></script>
 <script>
     function takeScreenshot() {
         html2canvas($('#fullsized_image_holder').get(0)).then( function (canvas) {
