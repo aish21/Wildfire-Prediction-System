@@ -8,7 +8,7 @@ def index():
 
 @app.route('/my-link/')
 def my_link():
-  return computation.color_weight_pred('map.png')
+  return computation.color_weight_pred('map.jpg')
 
 if __name__ == '__main__':
   app.run(debug=True)

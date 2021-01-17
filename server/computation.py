@@ -50,10 +50,11 @@ def color_weight_pred(filename):
       weights.append(g_percent)
   print(len(weights))
   #x = np.reshape(weights, (hs, ws))
+  str1 = ' '.join(str(e) for e in weights)
   with open('data.txt', 'w') as outfile:
     json.dump(weights, outfile)
 
   # cv2.waitKey(0)
   # cv2.destroyAllWindows()
 
-  return render_template('base.html')
+  return "Successful"
