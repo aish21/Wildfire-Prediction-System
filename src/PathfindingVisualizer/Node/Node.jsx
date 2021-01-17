@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 
 import './Node.css';
 
+var bodyStyles = document.body.style;
+
 export default class Node extends Component {
   render() {
     const {
+      hexName,
       col,
       isFinish,
       isStart,
@@ -29,6 +32,7 @@ export default class Node extends Component {
       <div
         id={`node-${row}-${col}`}
         className={`node ${extraClassName}`}
+        style={{backgroundColor: `${hexName}`}}
         onMouseDown={() => onMouseDown(row, col)}
         onMouseEnter={() => onMouseEnter(row, col)}
         onMouseUp={() => onMouseUp()}></div>

@@ -1,3 +1,7 @@
+/* :root {
+  --node_color: white;
+} */
+
 .node {
   width: 15px;
   height: 15px;

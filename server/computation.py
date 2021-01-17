@@ -24,12 +24,31 @@ def color_weight_pred(filename):
   hs = round(h/11)
   ws = round(w/11)
   resized = cv2.resize(img, (ws,hs), interpolation = cv2.INTER_AREA)
-  new_resized = cv2.resize(resized, (ws*11,hs*11), interpolation = cv2.INTER_AREA)
+  #new_resized = cv2.resize(resized, (ws*10,hs*10), interpolation = cv2.INTER_AREA)
   # cv2.imshow('new image', new_resized)
+  
   a = []
-  for i in range(hs):
-    for j in range(ws):
-      a.append(new_resized[i,j])
+  # for j in range(ws):
+  #   for i in range(hs):
+  #     a.append(resized[i,j])
+  #nparray = np.array(a)
+  #b = nparray.reshape(hs, ws) 
+  #np.flipud(b)
+  #np.fliplr(b)
+  
+  for i in range(hs):  
+    for j in range(ws):  
+      a.append(resized[i,j])
+  #nparray = b.reshape(1, hs*ws)
+  #a = list(nparray)
+  hex_list = []
+  hex_conv = '#%02x%02x%02x'                           
+  for x in a:
+    tuple_color = tuple(x)
+    hex_list.append(hex_conv % tuple_color)
+    
+  print(hex_list)
+
   new_resized_df = pd.DataFrame(a, columns=['red', 'green', 'blue'])
   color = model.predict(new_resized_df)
   bin_col = np.argmax(color, axis=1)
@@ -53,6 +72,9 @@ def color_weight_pred(filename):
   str1 = ' '.join(str(e) for e in weights)
   with open('data.txt', 'w') as outfile:
     json.dump(weights, outfile)
+  
+  with open('colors.txt', 'w') as outfile:
+    json.dump(hex_list, outfile)
 
   # cv2.waitKey(0)
   # cv2.destroyAllWindows()
