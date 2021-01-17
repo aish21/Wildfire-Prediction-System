@@ -15,7 +15,7 @@ export default class PathfindingVisualizer extends Component {
     this.state = {
       grid: [],
       mouseIsPressed: false,
-      selectValue: "No Wind",
+      selectValue: "NW",
     };
     this.handleChange = this.handleChange.bind(this);
   }
