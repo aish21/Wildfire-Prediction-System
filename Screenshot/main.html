@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    <style>
+        #map {
+            height: 835px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h4>My Google Maps Demo</h4>
+    <input type="text" id="address" name="address" placeholder="Address">
+    <br>
+    <input type="text" id="latitude" name="latitude" placeholder="Latitude">
+    <br>
+    <input type="text" id="longitude" name="longitude" placeholder="Longitude">
+    <br>
+    <button onclick="takeScreenshot()">Get Sceenshot!</button>
+    <br>
+    <div id="map"></div>
+    <br>
+    <script>
+        var map, infoWindow, marker, address, autocomplete, geocoder;
+        var pos = {
+            lat: 1.289440,
+            lng: 103.849983
+        }; 
+
+        function initMap() {
+            geocoder = new google.maps.Geocoder;
+            map = new google.maps.Map(
+                document.getElementById('map'), {
+                zoom: 15,
+                center: pos,
+                mapTypeId: 'satellite'
+            });
+            detectLocation();
+            autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'));
+            places = new google.maps.places.PlacesService(map);
+            autocomplete.addListener('place_changed', onPlaceChanged);
+        }
+
+        function detectLocation() {
+            infoWindow = new google.maps.InfoWindow;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    infoWindow.setPosition(pos);
+                    document.getElementById('latitude').value = pos.lat;
+                    document.getElementById('longitude').value = pos.lng;
+                    marker = new google.maps.Marker({
+                        position: pos,
+                        map: map,
+                        draggable: true
+                    });
+                    marker.addListener('dragend', handleEvent);
+                    map.setCenter(pos);
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+            infoWindow.open(map);
+        }
+
+        function handleEvent(event) {
+            document.getElementById('latitude').value = event.latLng.lat();
+            document.getElementById('longitude').value = event.latLng.lng();
+            geocodeLatLng(event.latLng.lat(), event.latLng.lng());
+        }
+
+        function onPlaceChanged() {
+            var place = autocomplete.getPlace();
+            if (place.geometry) {
+                map.panTo(place.geometry.location);
+                let latlng = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng());
+                marker.setPosition(latlng);
+                document.getElementById('latitude').value = map.getCenter().lat();
+                document.getElementById('longitude').value = map.getCenter().lng();
+                map.setZoom(15);
+            } else {
+                document.getElementById('autocomplete').placeholder = 'Enter a city';
+            }
+        }
+
+        function geocodeLatLng(lat, lng) {
+            var latlng = { lat: lat, lng: lng };
+            geocoder.geocode({ 'location': latlng }, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        document.getElementById('address').value = results[0].formatted_address;
+                    } else {
+                        window.alert('Error parsing Address');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATDl5adK6B-qJemjLDS1HQvlzploJ5Z0c&libraries=places&callback=initMap">
+    </script>
+    <script>
+		function takeScreenshot() {
+    		html2canvas(document.body, {
+      			onrendered: function(canvas) {
+      
+      if (navigator.userAgent.indexOf("MSIE ") > 0 || 
+					navigator.userAgent.match(/Trident.*rv\:11\./)) 
+			{
+      	var blob = canvas.msToBlob();
+        window.navigator.msSaveBlob(blob,'Test file.png');
+      }
+      else {
+        $('#test').attr('href', canvas.toDataURL("image/png"));
+        $('#test').attr('download','Test file.png');
+        $('#test')[0].click();
+      }
+      
+      
+      }
+    });
+}
+    </script>
+</body>
+</html>
