@@ -15,11 +15,13 @@ export default class PathfindingVisualizer extends Component {
     this.state = {
       grid: [],
       mouseIsPressed: false,
+      selectValue: "No Wind",
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    const grid = getInitialGrid();
+    const grid = getInitialGrid(this.state.selectValue);
     this.setState({grid});
   }
 
@@ -38,7 +40,7 @@ export default class PathfindingVisualizer extends Component {
     this.setState({mouseIsPressed: false});
   }
 
-  animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
+  animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder, wind) {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
@@ -54,6 +56,8 @@ export default class PathfindingVisualizer extends Component {
     }
   }
 
+
+
   animateShortestPath(nodesInShortestPathOrder) {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
@@ -66,21 +70,45 @@ export default class PathfindingVisualizer extends Component {
 
   visualizeDijkstra() {
     const {grid} = this.state;
+    const wind = this.state.selectValue;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder, wind);
+  }
+
+  handleChange(e){
+    this.setState({selectValue:e.target.value});
   }
 
   render() {
     const {grid, mouseIsPressed} = this.state;
+    var message='You selected '+this.state.selectValue;
 
     return (
       <>
         <button onClick={() => this.visualizeDijkstra()}>
-          Visualize Dijkstra's Algorithm
+          Visualize Forest Fire Spread
         </button>
+
+        <select 
+        value={this.state.selectValue} 
+        onChange={this.handleChange} 
+      >
+        <option value="No Wind">No Wind</option>
+        <option value="N">N</option>
+        <option value="E">E</option>
+        <option value="W">W</option>
+        <option value="S">S</option>
+        <option value="NE">NE</option>
+        <option value="NW">NW</option>
+        <option value="SE">SE</option>
+        <option value="SW">SW</option>
+      </select>
+
+      <p>{message}</p>
+
         <div className="grid">
           {grid.map((row, rowIdx) => {
             return (
@@ -113,19 +141,19 @@ export default class PathfindingVisualizer extends Component {
   }
 }
 
-const getInitialGrid = () => {
+const getInitialGrid = (wind) => {
   const grid = [];
   for (let row = 0; row < 20; row++) {
     const currentRow = [];
     for (let col = 0; col < 50; col++) {
-      currentRow.push(createNode(col, row));
+      currentRow.push(createNode(col, row, wind));
     }
     grid.push(currentRow);
   }
   return grid;
 };
 
-const createNode = (col, row) => {
+const createNode = (col, row, wind) => {
   return {
     col,
     row,
@@ -134,9 +162,53 @@ const createNode = (col, row) => {
     distance: Infinity,
     isVisited: false,
     isWall: false,
-    weight: Math.floor(Math.random() * 1000),
+    weight: getWeight(col, row, wind),
     previousNode: null,
   };
+};
+
+const getWeight = (col, row, wind) => {
+  if (wind === 'N'){
+    if(row < START_NODE_ROW){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  if (wind === 'S'){
+    if(row > START_NODE_ROW){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  if (wind === 'E'){
+    if(col > START_NODE_COL){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  if (wind === 'W'){
+    if(col < START_NODE_COL){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  if (wind === 'NE'){
+    if(row < START_NODE_ROW && col > START_NODE_COL){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  if (wind === 'SE'){
+    if(row > START_NODE_ROW && col > START_NODE_COL){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  if (wind === 'NW'){
+    if(row < START_NODE_ROW && col < START_NODE_COL){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  if (wind === 'SW'){
+    if(row > START_NODE_ROW && col < START_NODE_COL){
+      return Math.floor(Math.random() * 100 * 0.5)
+    }    
+  }
+  return Math.floor(Math.random() * 100)
 };
 
 const getNewGridWithWallToggled = (grid, row, col) => {
@@ -144,7 +216,7 @@ const getNewGridWithWallToggled = (grid, row, col) => {
   const node = newGrid[row][col];
   const newNode = {
     ...node,
-    weight: Math.floor(Math.random() * 1000),
+    
   };
   newGrid[row][col] = newNode;
   return newGrid;

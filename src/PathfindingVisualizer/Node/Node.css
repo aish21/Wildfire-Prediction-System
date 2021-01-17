@@ -6,7 +6,7 @@
 }
 
 .node-finish {
-  background-color: red;
+  /* background-color: red; */
 }
 
 .node-start {
@@ -27,12 +27,12 @@
 @keyframes visitedAnimation {
   0% {
     transform: scale(0.3);
-    background-color: rgba(107, 14, 2, 0.75);
+    background-color: rgba(155, 24, 7, 0.75);
     border-radius: 100%;
   }
 
   50% {
-    background-color: rgba(217, 40, 17, 0.75);
+    background-color: rgba(100, 32, 5, 0.925);
   }
 
   75% {
@@ -42,7 +42,7 @@
 
   100% {
     transform: scale(1);
-    background-color: rgba(219, 41, 28, 0.75);
+    background-color: rgba(192, 22, 10, 0.75);
   }
 }
 
