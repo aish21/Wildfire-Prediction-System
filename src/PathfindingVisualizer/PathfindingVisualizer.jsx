@@ -109,6 +109,8 @@ export default class PathfindingVisualizer extends Component {
 
       <p>{message}</p>
 
+      <a href="http://127.0.0.1:5500/Screenshot/main.html" target="_blank">Click here to select your image</a>
+
         <div className="grid">
           {grid.map((row, rowIdx) => {
             return (
