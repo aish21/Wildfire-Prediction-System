@@ -1,41 +1,235 @@
 <html>
-
 <head>
     <style>
+    	@import url(https://fonts.googleapis.com/css?family=Montserrat);
         #map {
             height: 835px;
             width: 100%;
         }
         #fullsized_image_holder {
-            height: 900px;
-            width: 1600px;
-            }
-
-        #element-out {
-            height: 400px;
             width: 640px;
-            }
+            margin: 0;
+            margin-left: 450px;
+            position: absolute;
+            top: 5%;
+        }
+		html{
+  			height:100%;
+  			font-weight: 800;
+		}
+
+		body {
+  			margin:0;
+  			background: #030321;
+  			font-family: Arial;
+		}
+
+		svg {
+    		display: block;
+    		font: 10em 'Montserrat';
+    		width: 900px;
+    		height: 300px;
+    		margin: 0 auto;
+        }
+        input{
+            width:500px;
+        }
+
+		input[type=text] {
+  			padding: 12px 20px;
+  			margin: 8px 0;
+  			border: none;
+  			border-bottom: 2px solid red;
+  			box-sizing: border-box;
+  			/* transition: width 0.4s ease-in-out; */
+		}
+		/* input[type=text]:focus {
+  			width: 100%;
+  			border: 3px solid #555;
+		} */
+
+		.text-copy {
+    		fill: none;
+    		stroke: white;
+    		stroke-dasharray: 6% 29%;
+    		stroke-width: 5px;
+    		stroke-dashoffset: 0%;
+    		animation: stroke-offset 5.5s infinite linear;
+		}
+
+		.text-copy:nth-child(1){
+			stroke: #4D163D;
+			animation-delay: -1;
+		}
+
+		.text-copy:nth-child(2){
+			stroke: #840037;
+			animation-delay: -2s;
+		}
+
+		.text-copy:nth-child(3){
+			stroke: #BD0034;
+			animation-delay: -3s;
+		}
+
+		.text-copy:nth-child(4){
+			stroke: #BD0034;
+			animation-delay: -4s;
+		}
+
+		.text-copy:nth-child(5){
+			stroke: #FDB731;
+			animation-delay: -5s;
+		}
+
+		.bg {
+  			animation:slide 3s ease-in-out infinite alternate;
+  			background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+  			bottom:0;
+  			left:-50%;
+  			opacity:.5;
+  			position:fixed;
+  			right:-50%;
+  			top:0;
+  			z-index:-1;
+		}
+
+		.bg2 {
+  			animation-direction:alternate-reverse;
+  			animation-duration:4s;
+		}
+
+		.bg3 {
+  			animation-duration:5s;
+		}
+
+		.content {
+  			background-color:rgba(255,255,255,.8);
+  			border-radius:.25em;
+  			box-shadow:0 0 .25em rgba(0,0,0,.25);
+  			box-sizing:border-box;
+  			left:50%;
+  			padding:10vmin;
+  			position:fixed;
+  			text-align:center;
+  			top:50%;
+  			transform:translate(-50%, -50%);
+		}
+
+		#stylebutton {
+			background-color:#fcba03;
+			font-size: 16px;
+			padding: 14px 40px;
+			border-radius: 12px;
+			transition-duration: 0.4s;
+			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+			width: 100%;
+        }
+        
+        #download-button{
+            background-color:#fcba03;
+			font-size: 16px;
+			padding: 14px 40px;
+			border-radius: 12px;
+			transition-duration: 0.4s;
+			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #click-button{
+            background-color:#fcba03;
+			font-size: 16px;
+			padding: 14px 40px;
+			border-radius: 12px;
+			transition-duration: 0.4s;
+			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+		#stylebutton:hover {
+ 			background-color:#fcba03; 
+  			color: white;
+  			box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+		}
+
+		h1 {
+  			font-family:monospace;
+		}
+
+		@keyframes stroke-offset{
+			100% {stroke-dashoffset: -35%;}
+		}
+
+		@keyframes slide {
+  			0% {
+    			transform:translateX(-25%);
+  			}
+  			100% {
+    			transform:translateX(25%);
+  			}
+        }
+        
+        .container {
+        height: 200px;
+        position: relative;
+        }
+
+        .vertical-center {
+        margin: 0;
+        margin-left: 550px;
+        position: absolute;
+        width:500px;
+        top: 0%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        }
     </style>
 </head>
 
 <body>
+	<div class="bg"></div>
+	<div class="bg bg2"></div>
+	<div class="bg bg3"></div>
+
+	<svg viewBox="0 0 960 300">
+	<symbol id="s-text">
+		<text text-anchor="middle" x="50%" y="40%">WYLDFIRE</text>
+	</symbol>
+
+	<g class = "g-ants">
+		<use xlink:href="#s-text" class="text-copy"></use>
+		<use xlink:href="#s-text" class="text-copy"></use>
+		<use xlink:href="#s-text" class="text-copy"></use>
+		<use xlink:href="#s-text" class="text-copy"></use>
+		<use xlink:href="#s-text" class="text-copy"></use>
+	</g>
+	</svg>
+
+	<div class="container">
+    <div class="vertical-center">
     <input type="text" id="address" name="address" placeholder="Address">
     <br>
     <input type="text" id="latitude" name="latitude" placeholder="Latitude">
     <br>
-    <input type="text" id="longitude" name="longitude" placeholder="Longitude">
+    <input type="text" id="longitude" name="longitude" placeholder="Longitude">	
+    <br> 
+    <button id="stylebutton" type = "button" onclick="Export()">Get Screenshot!</button>
     <br>
-    <button onclick="Export()">Get Screenshot!</button>
-    <br>
+    </div>
+    </div>
     <div id="map"></div>
     <br>
+    <div class="container">
     <div id="fullsized_image_holder" >
         <img alt="" style="display: none" id="element-out"></img>
         <p id="colorInfo"></p>
         <button style="display: none" onclick="takeScreenshot()" id="download-button">Download Screenshot!</button>
         <form action="/my-link/">
-            <input type="submit" value="Click me" />
+            <input style="display: none" id="click-button" type="submit" value="Generate Weights" />
         </form>
+    </div>
     </div>
     <br>
 
@@ -157,6 +351,9 @@
 
   var downloadButt = document.getElementById('download-button');
   downloadButt.style.display = 'block';
+
+  var clickButt = document.getElementById('click-button');
+  clickButt.style.display = 'block';
 
 }
     </script>

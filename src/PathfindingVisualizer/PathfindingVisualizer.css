@@ -1,3 +1,22 @@
 .grid {
-  margin: 100px 0 0;
+  margin: 30px 0 0;
+}
+
+#stylebutton {
+  background-color: #fcba03;
+  font-size: 16px;
+  padding: 14px 40px;
+  border-radius: 12px;
+  transition-duration: 0.4s;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  width: 50%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+select {
+  margin-top: 20px;
+}
+label {
+  margin-right: 20px;
 }

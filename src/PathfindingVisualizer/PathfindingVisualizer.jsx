@@ -93,22 +93,21 @@ export default class PathfindingVisualizer extends Component {
 
   render() {
     const {grid, mouseIsPressed} = this.state;
-    var message='You selected '+this.state.selectValue;
+    var message='You selected '+this.state.selectValue + ' wind';
 
     
     
 
     return (
+      
       <>
-        <button onClick={() => this.visualizeDijkstra()}>
-          Visualize Forest Fire Spread
-        </button>
 
-        <select 
+      <label>Select wind direction: </label>
+      <select 
         value={this.state.selectValue} 
         onChange={this.handleChange} 
       >
-        <option value="No Wind">No Wind</option>
+        <option value="No">No wind</option>
         <option value="N">N</option>
         <option value="E">E</option>
         <option value="W">W</option>
@@ -120,6 +119,12 @@ export default class PathfindingVisualizer extends Component {
       </select>
 
       <p>{message}</p>
+
+        <button id="stylebutton" onClick={() => this.visualizeDijkstra()}>
+          Visualize Forest Fire Spread
+        </button>
+
+        
 
       {/* <TextFileReader
         txt={myTxt}        
